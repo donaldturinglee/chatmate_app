@@ -1,3 +1,3 @@
 export interface IMainState {
-    value: number
+  value: number;
 }
