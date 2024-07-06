@@ -1,3 +1,5 @@
 export interface IMainState {
-  value: number;
+  app_mode: 'light' | 'dark';
 }
+
+export type TColorMode = 'light' | 'dark';

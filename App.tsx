@@ -15,7 +15,11 @@ function App(): React.JSX.Element {
         // backgroundColor={backgroundStyle.backgroundColor}
       />
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen
+          name="Home"
+          options={{headerShown: false}}
+          component={Home}
+        />
       </Stack.Navigator>
     </>
   );
