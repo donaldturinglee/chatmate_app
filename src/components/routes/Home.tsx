@@ -15,10 +15,14 @@ import {
 import ScrollView = Animated.ScrollView;
 import Explore from '../pages/Explore.tsx';
 import useAppColor from '../../theme/appColor.tsx';
+import {useAppDispatch, useAppSelector} from '../../../shared/hooks.ts';
+import {clearMessages} from '../../../shared/redux-slice.ts';
 
 const Drawer = createDrawerNavigator();
 const Home = React.memo((props: any) => {
   const appColor = useAppColor();
+  const conversation = useAppSelector(state => state.main.messages);
+  const dispatch = useAppDispatch();
   return (
     <Drawer.Navigator
       drawerContent={drawerProps => {
@@ -126,7 +130,41 @@ const Home = React.memo((props: any) => {
           </TouchableOpacity>
         ),
       }}>
-      <Drawer.Screen name="Chat" component={Chat} />
+      <Drawer.Screen
+        name="Chat"
+        options={{
+          headerTitle(props) {
+            return (
+              <View>
+                <View
+                  style={{
+                    backgroundColor: 'rgba(44, 5, 92, .2)',
+                    paddingVertical: 8,
+                    paddingHorizontal: 15,
+                    borderRadius: 12,
+                  }}>
+                  <Text style={{color: '#2c055c', fontSize: 20}}>Get Plus</Text>
+                </View>
+              </View>
+            );
+          },
+          headerRight: () => {
+            return (
+              <View
+                style={{
+                  marginRight: 20,
+                  opacity: conversation.length === 0 ? 0.4 : 1,
+                }}>
+                <Icons.EditPenIcon
+                  onPress={() => dispatch(clearMessages())}
+                  style={{width: 22, height: 22}}
+                />
+              </View>
+            );
+          },
+        }}
+        component={Chat}
+      />
       <Drawer.Screen name="Explore" component={Explore} />
     </Drawer.Navigator>
   );

@@ -56,6 +56,7 @@ const Chat = React.memo((props: any) => {
         style={{
           height: '100%',
           width: '100%',
+          paddingTop: 10,
         }}>
         {conversation.length > 0 ? (
           <View style={{flex: 1, flexShrink: 0}}>

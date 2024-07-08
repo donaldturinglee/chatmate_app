@@ -20,9 +20,13 @@ export const mainSlice = createSlice({
     updateMessages: (state, action: PayloadAction<TMessage>) => {
       state.messages.push(action.payload);
     },
+    clearMessages: state => {
+      state.messages = [];
+    },
   },
 });
 
-export const {setAppColorMode, updateMessages} = mainSlice.actions;
+export const {setAppColorMode, updateMessages, clearMessages} =
+  mainSlice.actions;
 
 export default mainSlice.reducer;

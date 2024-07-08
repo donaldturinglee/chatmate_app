@@ -46,7 +46,7 @@ export const MessageBox = React.memo(
           }}>
           <Markdown
             style={{
-              body: {fontSize: 16},
+              body: {fontSize: 16, lineHeight: 25},
               code_block: {
                 backgroundColor: appColor.highlight_bg,
                 borderWidth: 0,
