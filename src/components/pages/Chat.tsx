@@ -7,6 +7,7 @@ import {MessageBox} from '../../../shared/reusables.tsx';
 import {useAppDispatch, useAppSelector} from '../../../shared/hooks.ts';
 import {updateMessages} from '../../../shared/redux-slice.ts';
 import {TMessage} from '../../../shared/types.ts';
+import {make_request} from '../../../assets/constants.ts';
 
 const Chat = React.memo((props: any) => {
   const appColor = useAppColor();
@@ -24,8 +25,22 @@ const Chat = React.memo((props: any) => {
       sender: 'user',
     };
     dispatch(updateMessages(message));
+    handlePrompt(prompt);
     setPrompt('');
   }, [prompt]);
+
+  const handlePrompt = React.useCallback(async (prompt: string) => {
+    const response = await make_request(prompt);
+    if (response == undefined) {
+      console.log('An error occured, please try again');
+    }
+    const message: TMessage = {
+      content: response,
+      sender: 'system',
+    };
+    dispatch(updateMessages(message));
+  }, []);
+
   const handleInputLayout = React.useCallback((event: any) => {
     const {height} = event.nativeEvent.layout;
     if (height > 75) {
@@ -132,15 +147,17 @@ const Chat = React.memo((props: any) => {
                 }
               }}
             />
-            <View
-              style={{
-                position: 'absolute',
-                right: 10,
-                opacity: 0.6,
-                bottom: 10,
-              }}>
-              <Icons.MicIcon style={{width: 25, height: 25}} />
-            </View>
+            {!mainIconsHidden && (
+              <View
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  opacity: 0.6,
+                  bottom: 10,
+                }}>
+                <Icons.MicIcon style={{width: 25, height: 25}} />
+              </View>
+            )}
           </View>
           <View
             style={{

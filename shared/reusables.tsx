@@ -3,6 +3,7 @@ import React from 'react';
 import Icons from '../assets/icons.tsx';
 import useAppColor from '../src/theme/appColor.tsx';
 import {TMessageSender} from './types.ts';
+import Markdown from 'react-native-markdown-display';
 
 export const MessageBox = React.memo(
   (props: {message: string; sender: TMessageSender; style?: ViewStyle}) => {
@@ -41,9 +42,18 @@ export const MessageBox = React.memo(
               props.sender == 'user' ? appColor.highlight_bg : 'transparent',
             padding: 10,
             borderRadius: 10,
-            maxWidth: props.sender == 'user' ? '70%' : '100%',
+            maxWidth: props.sender == 'user' ? '70%' : '80%',
           }}>
-          <Text style={{fontSize: 16}}>{props.message}</Text>
+          <Markdown
+            style={{
+              body: {fontSize: 16},
+              code_block: {
+                backgroundColor: appColor.highlight_bg,
+                borderWidth: 0,
+              },
+            }}>
+            {props.message}
+          </Markdown>
         </View>
       </View>
     );
