@@ -1,10 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
-import {IMainState, TColorMode} from './types';
+import {IMainState, TColorMode, TMessage} from './types';
 
 // Define the initial state using that type
 const initialState: IMainState = {
   app_mode: 'light',
+  messages: [],
 };
 
 export const mainSlice = createSlice({
@@ -16,9 +17,12 @@ export const mainSlice = createSlice({
     setAppColorMode: (state, action: PayloadAction<TColorMode>) => {
       state.app_mode = action.payload;
     },
+    updateMessages: (state, action: PayloadAction<TMessage>) => {
+      state.messages.push(action.payload);
+    },
   },
 });
 
-export const {setAppColorMode} = mainSlice.actions;
+export const {setAppColorMode, updateMessages} = mainSlice.actions;
 
 export default mainSlice.reducer;

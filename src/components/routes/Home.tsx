@@ -21,7 +21,7 @@ const Home = React.memo((props: any) => {
   const appColor = useAppColor();
   return (
     <Drawer.Navigator
-      drawerContent={props => {
+      drawerContent={drawerProps => {
         return (
           <SafeAreaView style={{flex: 1}}>
             <View
@@ -57,7 +57,7 @@ const Home = React.memo((props: any) => {
                   </View>
                 )}
                 label={'Chat'}
-                onPress={() => props.navigation.navigate('Chat')}
+                onPress={() => drawerProps.navigation.navigate('Chat')}
               />
               <DrawerItem
                 activeTintColor={appColor.bold_text}
@@ -68,10 +68,11 @@ const Home = React.memo((props: any) => {
                   </View>
                 )}
                 label={'Explore'}
-                onPress={() => props.navigation.navigate('Explore')}
+                onPress={() => drawerProps.navigation.navigate('Explore')}
               />
             </ScrollView>
             <View
+              onTouchEnd={() => props.navigation.navigate('Settings')}
               style={{
                 flexDirection: 'row',
                 paddingHorizontal: 15,
@@ -108,6 +109,11 @@ const Home = React.memo((props: any) => {
         );
       }}
       screenOptions={{
+        drawerStyle: {
+          width: '80%',
+          backgroundColor: appColor.main_bg,
+        },
+        headerShadowVisible: false,
         headerLeft: headerProps => (
           <TouchableOpacity onPress={() => DrawerActions.openDrawer()}>
             <Icons.MenuIcon
