@@ -119,7 +119,10 @@ const Home = React.memo((props: any) => {
         },
         headerShadowVisible: false,
         headerLeft: headerProps => (
-          <TouchableOpacity onPress={() => DrawerActions.openDrawer()}>
+          <TouchableOpacity
+            onPress={() =>
+              props.navigation.dispatch(DrawerActions.openDrawer())
+            }>
             <Icons.MenuIcon
               {...headerProps}
               style={{
