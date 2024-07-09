@@ -1,4 +1,4 @@
-import {Text, View, ViewStyle} from 'react-native';
+import {View, ViewStyle} from 'react-native';
 import React from 'react';
 import Icons from '../assets/icons.tsx';
 import useAppColor from '../src/theme/appColor.tsx';
@@ -40,7 +40,7 @@ export const MessageBox = React.memo(
           style={{
             backgroundColor:
               props.sender == 'user' ? appColor.highlight_bg : 'transparent',
-            padding: 10,
+            paddingHorizontal: 10,
             borderRadius: 10,
             maxWidth: props.sender == 'user' ? '70%' : '80%',
           }}>
