@@ -8,7 +8,8 @@ import {useAppDispatch, useAppSelector} from '../../../shared/hooks.ts';
 import {updateMessages} from '../../../shared/redux-slice.ts';
 import {TMessage} from '../../../shared/types.ts';
 import {make_request} from '../../../assets/constants.ts';
-
+import {launchImageLibrary} from 'react-native-image-picker';
+import {pick, types} from 'react-native-document-picker';
 const Chat = React.memo((props: any) => {
   const appColor = useAppColor();
   const [mainIconsHidden, setMainIconsHidden] = React.useState<boolean>(false);
@@ -16,6 +17,40 @@ const Chat = React.memo((props: any) => {
   const [showExpandBtn, setShowExpandBtn] = React.useState<boolean>(false);
   const conversation = useAppSelector(state => state.main.messages);
   const dispatch = useAppDispatch();
+  const handleLaunchImageLibrary = React.useCallback(async () => {
+    const respoonse = await launchImageLibrary({
+      mediaType: 'mixed',
+      selectionLimit: 0,
+    });
+    respoonse.assets?.map(asset => {
+      fetch(asset.uri as string)
+        .then(res => res.blob())
+        .then(data => {
+          console.log('file data: ', data);
+        })
+        .catch(err => {
+          console.log('error', err);
+        });
+    });
+  }, []);
+  const handlePickDocument = React.useCallback(() => {
+    pick({
+      allowMultiSelection: true,
+      type: [types.pdf, types.docx],
+    })
+      .then(res => {
+        const allFilesArePdfOrDocx = res.every(
+          (file: any) => file.hasRequestedType,
+        );
+        if (!allFilesArePdfOrDocx) {
+          // tell the user they selected a file that is not a pdf or docx
+        }
+        console.log(res);
+      })
+      .catch(err => {
+        console.log('error', err);
+      });
+  }, []);
   const handleSubmitPrompt = React.useCallback(() => {
     if (prompt.length === 0) {
       return;
@@ -113,9 +148,11 @@ const Chat = React.memo((props: any) => {
                   style={{width: 35, height: 35}}
                 />
                 <Icons.ImageIcon
+                  onPress={handleLaunchImageLibrary}
                   style={{width: 25, height: 25, marginLeft: 10}}
                 />
                 <Icons.FolderIcon
+                  onPress={handlePickDocument}
                   style={{width: 25, height: 25, marginLeft: 15}}
                 />
               </>
