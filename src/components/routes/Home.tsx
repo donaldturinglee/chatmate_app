@@ -56,8 +56,16 @@ const Home = React.memo((props: any) => {
                 activeTintColor={appColor.bold_text}
                 activeBackgroundColor={appColor.highlight_bg}
                 icon={() => (
-                  <View>
-                    <Icons.OpenAIIcon />
+                  <View
+                    style={{
+                      padding: 8,
+                      borderRadius: 30,
+                      backgroundColor: appColor.inverseWhiteBlack,
+                    }}>
+                    <Icons.OpenAIIcon
+                      mode="dark"
+                      style={{width: 20, height: 20}}
+                    />
                   </View>
                 )}
                 label={'Chat'}
@@ -67,8 +75,8 @@ const Home = React.memo((props: any) => {
                 activeTintColor={appColor.bold_text}
                 activeBackgroundColor={appColor.highlight_bg}
                 icon={() => (
-                  <View>
-                    <Icons.MenuCircleIcon />
+                  <View style={{padding: 8}}>
+                    <Icons.MenuCircleIcon style={{width: 20, height: 20}} />
                   </View>
                 )}
                 label={'Explore'}
@@ -120,6 +128,7 @@ const Home = React.memo((props: any) => {
         headerShadowVisible: false,
         headerLeft: headerProps => (
           <TouchableOpacity
+            style={{marginLeft: 15}}
             onPress={() =>
               props.navigation.dispatch(DrawerActions.openDrawer())
             }>
@@ -168,7 +177,20 @@ const Home = React.memo((props: any) => {
         }}
         component={Chat}
       />
-      <Drawer.Screen name="Explore" component={Explore} />
+      <Drawer.Screen
+        name="Explore"
+        options={{
+          headerTitle: 'Explore',
+          headerRight(props) {
+            return (
+              <View style={{marginRight: 15}}>
+                <Icons.SearchIcon style={{width: 25, height: 25}} />
+              </View>
+            );
+          },
+        }}
+        component={Explore}
+      />
     </Drawer.Navigator>
   );
 });

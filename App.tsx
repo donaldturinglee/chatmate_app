@@ -1,9 +1,13 @@
 import React from 'react';
 
 import {StatusBar, useColorScheme, View} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import Home from './src/components/routes/Home.tsx';
 import Settings from './src/components/routes/Settings.tsx';
+import Camera from './src/components/routes/Camera.tsx';
 import useAppColor from './src/theme/appColor.tsx';
 import Icons from './assets/icons.tsx';
 
@@ -50,6 +54,17 @@ function App(): React.JSX.Element {
             },
           }}
           component={Settings}
+        />
+        <Stack.Screen
+          name="Camera"
+          options={{
+            presentation: 'card',
+            cardStyle: {height: '50%'},
+            headerShown: false,
+            gestureDirection: 'vertical',
+            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+          }}
+          component={Camera}
         />
       </Stack.Navigator>
     </>

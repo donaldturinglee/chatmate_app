@@ -108,7 +108,10 @@ const Chat = React.memo((props: any) => {
               </View>
             ) : (
               <>
-                <Icons.CameraIcon style={{width: 35, height: 35}} />
+                <Icons.CameraIcon
+                  onPress={() => props.navigation.navigate('Camera')}
+                  style={{width: 35, height: 35}}
+                />
                 <Icons.ImageIcon
                   style={{width: 25, height: 25, marginLeft: 10}}
                 />
