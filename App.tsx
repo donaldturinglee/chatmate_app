@@ -13,6 +13,7 @@ import storage from './shared/storage.ts';
 import {APP_COLOR_MODE_KEY} from './assets/constants.ts';
 import {useAppDispatch, useAppSelector} from './shared/hooks.ts';
 import {setAppColorMode} from './shared/redux-slice.ts';
+import Input from './src/components/routes/Input.tsx';
 
 const Stack = createStackNavigator();
 function App(): React.JSX.Element {
@@ -72,6 +73,14 @@ function App(): React.JSX.Element {
             cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           }}
           component={Camera}
+        />
+        <Stack.Screen
+          name="Input"
+          component={Input}
+          options={{
+            headerShown: false,
+            presentation: 'modal',
+          }}
         />
       </Stack.Navigator>
     </>

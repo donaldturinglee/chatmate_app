@@ -11,7 +11,11 @@ import Icons from '../../../assets/icons.tsx';
 import useAppColor from '../../theme/appColor.tsx';
 import {MessageBox} from '../../../shared/reusables.tsx';
 import {useAppDispatch, useAppSelector} from '../../../shared/hooks.ts';
-import {setActiveDrawer, updateMessages} from '../../../shared/redux-slice.ts';
+import {
+  setActiveDrawer,
+  updateMessages,
+  updatePromptInput,
+} from '../../../shared/redux-slice.ts';
 import {TMessage} from '../../../shared/types.ts';
 import {make_request} from '../../../assets/constants.ts';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -19,7 +23,7 @@ import {pick, types} from 'react-native-document-picker';
 const Chat = React.memo((props: any) => {
   const appColor = useAppColor();
   const [mainIconsHidden, setMainIconsHidden] = React.useState<boolean>(false);
-  const [prompt, setPrompt] = React.useState<string>('');
+  const prompt = useAppSelector(state => state.main.prompt_input);
   const [showExpandBtn, setShowExpandBtn] = React.useState<boolean>(false);
   const conversation = useAppSelector(state => state.main.messages);
   const appColorMode = useAppSelector(state => state.main.app_mode);
@@ -69,7 +73,8 @@ const Chat = React.memo((props: any) => {
     };
     dispatch(updateMessages(message));
     handlePrompt(prompt);
-    setPrompt('');
+    // setPrompt('');
+    dispatch(updatePromptInput(''));
   }, [prompt]);
 
   const handlePrompt = React.useCallback(async (prompt: string) => {
@@ -83,6 +88,10 @@ const Chat = React.memo((props: any) => {
     };
     dispatch(updateMessages(message));
   }, []);
+
+  const handleOpenExpandInput = React.useCallback(() => {
+    props.navigation.navigate('Input');
+  }, [prompt]);
 
   const handleInputLayout = React.useCallback((event: any) => {
     const {height} = event.nativeEvent.layout;
@@ -140,7 +149,7 @@ const Chat = React.memo((props: any) => {
         )}
 
         {/*text input container*/}
-        <View style={styles.text_box_container}>
+        <View style={[styles.text_box_container, {paddingTop: 10}]}>
           <View
             style={{
               flexDirection: 'row',
@@ -200,7 +209,7 @@ const Chat = React.memo((props: any) => {
               placeholderTextColor={appColor.line_color}
               onLayout={handleInputLayout}
               onChangeText={text => {
-                setPrompt(text);
+                dispatch(updatePromptInput(text));
                 if (text.length > 0) {
                   setMainIconsHidden(true);
                 } else {
@@ -237,6 +246,7 @@ const Chat = React.memo((props: any) => {
           </View>
           {showExpandBtn && (
             <Icons.ExpandIcon
+              onPress={handleOpenExpandInput}
               style={{
                 width: 25,
                 height: 25,

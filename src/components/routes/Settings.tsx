@@ -5,7 +5,7 @@ import useAppColor from '../../theme/appColor.tsx';
 import Icons from '../../../assets/icons.tsx';
 import {useNavigation} from '@react-navigation/native';
 import {ListContainer, ListItem} from '../../../shared/reusables.tsx';
-import {Button, Menu, Divider, PaperProvider} from 'react-native-paper';
+import {Menu, Divider} from 'react-native-paper';
 import {useAppDispatch, useAppSelector} from '../../../shared/hooks.ts';
 import {setAppColorMode} from '../../../shared/redux-slice.ts';
 import storage from '../../../shared/storage.ts';
@@ -63,22 +63,12 @@ const Settings = React.memo((props: any) => {
           <ListItem
             icon={<Icons.EmailIcon style={{width: 25, height: 25}} />}
             title="Email"
-            label="donaldturinglee@gmail.com"
+            label="test@gmail.com"
           />
           <ListItem
-            icon={<Icons.PlusSquareIcon style={{width: 25, height: 25}} />}
-            title="Subscription"
-            label="Free Plan"
-          />
-          <ListItem
-            icon={<Icons.ArrowUpIcon style={{width: 25, height: 25}} />}
-            title="Upgrade to ChatGPT Plus"
-            label=""
-          />
-          <ListItem
-            icon={<Icons.RestoreIcon style={{width: 25, height: 25}} />}
-            title="Restore purchases"
-            label=""
+            icon={<Icons.BrainIcon style={{width: 25, height: 25}} />}
+            title="Language Model"
+            label="OpenAI"
           />
           <ListItem
             contentStyle={{
@@ -225,8 +215,8 @@ const Settings = React.memo((props: any) => {
               borderBottomWidth: 0,
               borderBottomColor: 'transparent',
             }}
-            icon={<Icons.CircleIcon style={{width: 25, height: 25}} />}
-            title="Chatmate"
+            icon={<Icons.GithubIcon style={{width: 25, height: 25}} />}
+            title="Github"
             label=""
           />
         </ListContainer>

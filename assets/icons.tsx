@@ -127,6 +127,16 @@ import Expand from './icons/dark/expand.svg';
 // @ts-ignore
 import ExpandWhite from './icons/light/expand-white.svg';
 
+// @ts-ignore
+import Brain from './icons/dark/brain.svg';
+// @ts-ignore
+import BrainWhite from './icons/light/brain-white.svg';
+
+// @ts-ignore
+import Github from './icons/dark/github.svg';
+// @ts-ignore
+import GithubWhite from './icons/light/github-white.svg';
+
 import {store} from '../shared/redux-store';
 import {TColorMode} from '../shared/types.ts';
 
@@ -455,6 +465,28 @@ export default {
   }) => (
     <View style={[{width: 15, height: 15}, style]} onTouchEnd={onPress}>
       {store.getState().main.app_mode == 'dark' ? <ExpandWhite /> : <Expand />}
+    </View>
+  ),
+  BrainIcon: ({
+    style,
+    onPress,
+  }: {
+    style?: ViewStyle;
+    onPress?: (event: GestureResponderEvent) => void;
+  }) => (
+    <View style={[{width: 15, height: 15}, style]} onTouchEnd={onPress}>
+      {store.getState().main.app_mode == 'dark' ? <BrainWhite /> : <Brain />}
+    </View>
+  ),
+  GithubIcon: ({
+    style,
+    onPress,
+  }: {
+    style?: ViewStyle;
+    onPress?: (event: GestureResponderEvent) => void;
+  }) => (
+    <View style={[{width: 15, height: 15}, style]} onTouchEnd={onPress}>
+      {store.getState().main.app_mode == 'dark' ? <GithubWhite /> : <Github />}
     </View>
   ),
 };

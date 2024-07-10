@@ -166,6 +166,7 @@ const Home = React.memo((props: any) => {
           headerStyle: {
             backgroundColor: appColor.main_bg,
           },
+          headerTitleAlign: 'center',
           headerTitle(props) {
             return (
               <View>
@@ -176,7 +177,9 @@ const Home = React.memo((props: any) => {
                     paddingHorizontal: 15,
                     borderRadius: 12,
                   }}>
-                  <Text style={{color: '#2c055c', fontSize: 20}}>Get Plus</Text>
+                  <Text style={{color: '#2c055c', fontSize: 20}}>
+                    claude-3.5-sonnet
+                  </Text>
                 </View>
               </View>
             );
@@ -202,6 +205,7 @@ const Home = React.memo((props: any) => {
         name="Explore"
         options={{
           headerTitle: 'Explore',
+          headerTitleAlign: 'center',
           headerRight(props) {
             return (
               <View style={{marginRight: 15}}>

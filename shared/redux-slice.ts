@@ -7,6 +7,7 @@ const initialState: IMainState = {
   app_mode: 'light',
   messages: [],
   active_drawer: '',
+  prompt_input: '',
 };
 
 export const mainSlice = createSlice({
@@ -27,10 +28,18 @@ export const mainSlice = createSlice({
     setActiveDrawer: (state, action: PayloadAction<string>) => {
       state.active_drawer = action.payload;
     },
+    updatePromptInput: (state, action: PayloadAction<string>) => {
+      state.prompt_input = action.payload;
+    },
   },
 });
 
-export const {setAppColorMode, updateMessages, clearMessages, setActiveDrawer} =
-  mainSlice.actions;
+export const {
+  setAppColorMode,
+  updateMessages,
+  clearMessages,
+  setActiveDrawer,
+  updatePromptInput,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;

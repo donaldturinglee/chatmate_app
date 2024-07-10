@@ -4,6 +4,7 @@ export interface IMainState {
   app_mode: TColorMode;
   messages: Array<TMessage>;
   active_drawer: string;
+  prompt_input: string;
 }
 
 export type TColorMode = 'light' | 'dark' | 'system';
