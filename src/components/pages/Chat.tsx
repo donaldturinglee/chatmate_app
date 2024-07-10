@@ -1,11 +1,17 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  useColorScheme,
+  View,
+} from 'react-native';
 import CustomView from '../../theme/CustomView.tsx';
 import Icons from '../../../assets/icons.tsx';
 import useAppColor from '../../theme/appColor.tsx';
 import {MessageBox} from '../../../shared/reusables.tsx';
 import {useAppDispatch, useAppSelector} from '../../../shared/hooks.ts';
-import {updateMessages} from '../../../shared/redux-slice.ts';
+import {setActiveDrawer, updateMessages} from '../../../shared/redux-slice.ts';
 import {TMessage} from '../../../shared/types.ts';
 import {make_request} from '../../../assets/constants.ts';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -16,6 +22,8 @@ const Chat = React.memo((props: any) => {
   const [prompt, setPrompt] = React.useState<string>('');
   const [showExpandBtn, setShowExpandBtn] = React.useState<boolean>(false);
   const conversation = useAppSelector(state => state.main.messages);
+  const appColorMode = useAppSelector(state => state.main.app_mode);
+  const systemColorMode = useColorScheme() || 'light';
   const dispatch = useAppDispatch();
   const handleLaunchImageLibrary = React.useCallback(async () => {
     const respoonse = await launchImageLibrary({
@@ -85,6 +93,10 @@ const Chat = React.memo((props: any) => {
     }
   }, []);
 
+  React.useLayoutEffect(() => {
+    dispatch(setActiveDrawer('chat'));
+  }, []);
+
   return (
     <SafeAreaView style={{backgroundColor: appColor.main_bg}}>
       <View
@@ -114,7 +126,15 @@ const Chat = React.memo((props: any) => {
                 padding: 10,
                 backgroundColor: appColor.bold_text,
               }}>
-              <Icons.OpenAIIcon mode="dark" style={{width: 30, height: 30}} />
+              <Icons.OpenAIIcon
+                mode={
+                  (appColorMode == 'system' ? systemColorMode : appColorMode) ==
+                  'dark'
+                    ? 'light'
+                    : 'dark'
+                }
+                style={{width: 30, height: 30}}
+              />
             </View>
           </View>
         )}

@@ -1,8 +1,8 @@
-import {View, ViewStyle} from 'react-native';
+import {Text, View, ViewStyle} from 'react-native';
 import React from 'react';
 import Icons from '../assets/icons.tsx';
 import useAppColor from '../src/theme/appColor.tsx';
-import {TMessageSender} from './types.ts';
+import {IListItemProp, TMessageSender} from './types.ts';
 import Markdown from 'react-native-markdown-display';
 
 export const MessageBox = React.memo(
@@ -59,3 +59,68 @@ export const MessageBox = React.memo(
     );
   },
 );
+
+export const ListContainer = React.memo(
+  (props: {style?: ViewStyle; children: any}) => {
+    const appColor = useAppColor();
+    return (
+      <View
+        style={[
+          {
+            backgroundColor: appColor.settings_list_bg,
+            borderRadius: 10,
+          },
+          props.style,
+        ]}>
+        {props.children}
+      </View>
+    );
+  },
+);
+
+export const ListItem = React.memo((props: IListItemProp) => {
+  const appColor = useAppColor();
+
+  return (
+    <View
+      onTouchEnd={props.onPress}
+      style={[
+        {
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        props.style,
+      ]}>
+      <View style={{margin: 15}}>{props.icon}</View>
+      <View
+        style={[
+          {
+            flex: 1,
+            flexDirection: 'row',
+            paddingRight: 10,
+            justifyContent: 'space-between',
+            borderBottomColor: appColor.line_color,
+            borderBottomWidth: 0.5,
+            paddingVertical: 15,
+          },
+          props.contentStyle,
+        ]}>
+        <View>
+          <Text style={{fontSize: 18, color: appColor.bold_text}}>
+            {props.title}
+          </Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text style={{fontSize: 18, color: appColor.text_color}}>
+            {props.label}
+          </Text>
+          {props.hasPage && (
+            <Icons.AngleRightIcon
+              style={{width: 30, height: 30, opacity: 0.6, marginLeft: 10}}
+            />
+          )}
+        </View>
+      </View>
+    </View>
+  );
+});

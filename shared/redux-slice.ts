@@ -6,6 +6,7 @@ import {IMainState, TColorMode, TMessage} from './types';
 const initialState: IMainState = {
   app_mode: 'light',
   messages: [],
+  active_drawer: '',
 };
 
 export const mainSlice = createSlice({
@@ -23,10 +24,13 @@ export const mainSlice = createSlice({
     clearMessages: state => {
       state.messages = [];
     },
+    setActiveDrawer: (state, action: PayloadAction<string>) => {
+      state.active_drawer = action.payload;
+    },
   },
 });
 
-export const {setAppColorMode, updateMessages, clearMessages} =
+export const {setAppColorMode, updateMessages, clearMessages, setActiveDrawer} =
   mainSlice.actions;
 
 export default mainSlice.reducer;

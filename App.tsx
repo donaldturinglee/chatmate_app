@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StatusBar, useColorScheme, View} from 'react-native';
+import {StatusBar, StatusBarStyle, useColorScheme, View} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -9,16 +9,39 @@ import Home from './src/components/routes/Home.tsx';
 import Settings from './src/components/routes/Settings.tsx';
 import Camera from './src/components/routes/Camera.tsx';
 import useAppColor from './src/theme/appColor.tsx';
-import Icons from './assets/icons.tsx';
+import storage from './shared/storage.ts';
+import {APP_COLOR_MODE_KEY} from './assets/constants.ts';
+import {useAppDispatch, useAppSelector} from './shared/hooks.ts';
+import {setAppColorMode} from './shared/redux-slice.ts';
 
 const Stack = createStackNavigator();
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   const appColor = useAppColor();
+
+  const dispatch = useAppDispatch();
+  const systemColorMode = useColorScheme() || 'light';
+  const appColorMode = useAppSelector(state => state.main.app_mode);
+  const handleSetColorMode = React.useCallback(() => {
+    storage
+      .load({key: APP_COLOR_MODE_KEY})
+      .then((data: any) => {
+        dispatch(setAppColorMode(data));
+      })
+      .catch((err: any) => {
+        dispatch(setAppColorMode('system'));
+      });
+  }, []);
+  React.useLayoutEffect(() => {
+    handleSetColorMode();
+  }, []);
   return (
     <>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        barStyle={
+          (appColorMode == 'system' ? systemColorMode : appColorMode) == 'light'
+            ? 'dark-content'
+            : 'light-content'
+        }
         // backgroundColor={backgroundStyle.backgroundColor}
       />
       <Stack.Navigator>
@@ -36,22 +59,6 @@ function App(): React.JSX.Element {
               backgroundColor: appColor.page_modal_bg,
             },
             headerShadowVisible: false,
-            headerRight(props) {
-              return (
-                <View
-                  style={{
-                    backgroundColor: appColor.line_color,
-                    marginRight: 25,
-                    width: 30,
-                    height: 30,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: 50,
-                  }}>
-                  <Icons.TimesIcon style={{width: 25, height: 25}} />
-                </View>
-              );
-            },
           }}
           component={Settings}
         />

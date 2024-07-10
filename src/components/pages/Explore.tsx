@@ -2,9 +2,15 @@ import React from 'react';
 import CustomView from '../../theme/CustomView.tsx';
 import {ScrollView, Text, View} from 'react-native';
 import useAppColor from '../../theme/appColor.tsx';
+import {useAppDispatch} from '../../../shared/hooks.ts';
+import {setActiveDrawer} from '../../../shared/redux-slice.ts';
 
 const Explore = React.memo((props: any) => {
   const appColor = useAppColor();
+  const dispatch = useAppDispatch();
+  React.useLayoutEffect(() => {
+    dispatch(setActiveDrawer('explore'));
+  }, []);
   return (
     <>
       <ScrollView

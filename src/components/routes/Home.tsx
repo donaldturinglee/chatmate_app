@@ -11,6 +11,7 @@ import {
   View,
   StyleSheet,
   Text,
+  useColorScheme,
 } from 'react-native';
 import ScrollView = Animated.ScrollView;
 import Explore from '../pages/Explore.tsx';
@@ -23,6 +24,9 @@ const Home = React.memo((props: any) => {
   const appColor = useAppColor();
   const conversation = useAppSelector(state => state.main.messages);
   const dispatch = useAppDispatch();
+  const appColorMode = useAppSelector(state => state.main.app_mode);
+  const systemColorMode = useColorScheme() || 'light';
+  const currentPage = useAppSelector(state => state.main.active_drawer);
   return (
     <Drawer.Navigator
       drawerContent={drawerProps => {
@@ -52,8 +56,9 @@ const Home = React.memo((props: any) => {
             </View>
             <ScrollView style={{flex: 1}}>
               <DrawerItem
-                focused={true}
+                focused={currentPage === 'chat'}
                 activeTintColor={appColor.bold_text}
+                inactiveTintColor={appColor.bold_text}
                 activeBackgroundColor={appColor.highlight_bg}
                 icon={() => (
                   <View
@@ -63,7 +68,13 @@ const Home = React.memo((props: any) => {
                       backgroundColor: appColor.inverseWhiteBlack,
                     }}>
                     <Icons.OpenAIIcon
-                      mode="dark"
+                      mode={
+                        (appColorMode == 'system'
+                          ? systemColorMode
+                          : appColorMode) == 'dark'
+                          ? 'light'
+                          : 'dark'
+                      }
                       style={{width: 20, height: 20}}
                     />
                   </View>
@@ -72,7 +83,9 @@ const Home = React.memo((props: any) => {
                 onPress={() => drawerProps.navigation.navigate('Chat')}
               />
               <DrawerItem
+                focused={currentPage === 'explore'}
                 activeTintColor={appColor.bold_text}
+                inactiveTintColor={appColor.bold_text}
                 activeBackgroundColor={appColor.highlight_bg}
                 icon={() => (
                   <View style={{padding: 8}}>
@@ -107,7 +120,12 @@ const Home = React.memo((props: any) => {
                   </Text>
                 </View>
                 <View style={{marginLeft: 15}}>
-                  <Text style={{fontWeight: '600', fontSize: 16}}>
+                  <Text
+                    style={{
+                      fontWeight: '600',
+                      fontSize: 16,
+                      color: appColor.bold_text,
+                    }}>
                     Paulos Ab
                   </Text>
                 </View>
@@ -145,6 +163,9 @@ const Home = React.memo((props: any) => {
       <Drawer.Screen
         name="Chat"
         options={{
+          headerStyle: {
+            backgroundColor: appColor.main_bg,
+          },
           headerTitle(props) {
             return (
               <View>

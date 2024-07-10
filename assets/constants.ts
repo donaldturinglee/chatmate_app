@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {API_KEY} from './secret';
-
-const endpoint = 'https://api.openai.com/v1';
 export const APP_COLOR_MODE_KEY = 'app-color-mode';
+const endpoint = 'https://api.openai.com/v1';
+
 const instance = axios.create({
   baseURL: endpoint,
   timeout: 30000,
